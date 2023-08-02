@@ -1,0 +1,52 @@
+﻿/* Xử lí mã định dạng cho các thẻ trong HTML*/
+
+*{
+	margin: 0;
+}
+
+body{
+	background: #fffffe; 
+	font-family: Arial; 
+	font-size: 14px;
+}
+/*******************************/
+table{
+	width: 100%;
+	font-size: 14px;
+}
+th, td{
+	padding: 10px 5px;
+}
+
+th{
+	background: #666;
+	color: #fff;
+	text-transform: uppercase;
+    text-align: center !important;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	
+}
+
+/*******************************/
+a{
+	text-decoration: none;
+	color: #666;
+	
+}
+a:visited {
+	color: #444;
+	
+}
+a:hover {
+	color: #111;
+	
+}
+
+/*******************************/
+
+
+/*******************************/
+
+
+/*******************************/

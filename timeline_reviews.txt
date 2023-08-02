@@ -1,0 +1,33 @@
+style list reviews:
+style reviews header:
+style reviews title (4.7 trên 5)
+tính stars trung bình (4.7 = tổng số stars / tổng số reviews)
+style stars trung bình (icon)
+style list phân loại reviews (Tất cả, có bình luận, có hình ảnh/video, 5 sao, 4 sao, ...)
+style active list item
+
+style list reviews item:
+style avatar, username, created at, classify
+style material, color, correct (nếu có)
+style content
+style list ảnh / video
+
+tạo carousel review media
+ẩn hiện carousel khi active ảnh / video
+style ảnh / video active
+hiện slide carousel tương ứng với ảnh khi active ảnh / video
+style prev next button
+
+style phản hồi review (nếu có)
+style báo cáo vi phạm
+
+style nút like
+tăng / giảm đi 1 khi like / unlike
+
+xử lý sự kiện active phân loại reviews:
+
+xử lý phân trang:
+style thanh phân trang
+xử lý sự kiện kích phân trang
+xử lý chuyển trang tương ứng
+

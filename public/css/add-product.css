@@ -1,0 +1,83 @@
+.form-input {
+  width: 100%;
+  height: 40px;
+  margin: 5px 0;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15);
+}
+
+label {
+  font-size: 1rem;
+  color: #858796;
+  margin: 10px 0 0 5px;
+}
+
+.card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between {
+  display: flex;
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+h6.m-0.font-weight-bold.text-primary {
+  margin-right: 8px !important;
+}
+
+div#product-expand1 {
+  margin-right: 9px;
+  background: #3057c8;
+  color: #FFF;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+div#product-expand1.minus-item {
+  background: #b1b7c9;
+}
+
+div#sizes {
+  display: none;
+}
+
+.form-input.text {
+  min-height: 200px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+button.add-button {
+  background: #2850c3;
+  color: #FFF;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+}
+
+a.cancel-button {
+  background: #b1b7c9;
+  color: #ffffff !important;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+}
+
+div#form-button.text-end.col {
+  display: none;
+}

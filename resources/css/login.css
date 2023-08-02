@@ -1,0 +1,53 @@
+/* Mã xử lý cho loginv1.html*/
+
+@import url('start.css');
+
+.loginview{
+	width: 40vw;
+	height: auto;
+	
+	/*border-width: 1px;
+	border-style: solid;
+	border-color: #888;*/
+	
+	border: 0px solid #888;
+	
+	/*margin-left: auto;
+	margin-right:auto;*/
+	
+	margin: 20px auto 0 auto;
+}
+
+#loginview table {
+    background: #efefef;
+    box-shadow: 5px 5px 10px #888;
+    border-radius: 12px;
+}
+
+#loginview .lc{
+	font-weight: bold;
+	text-align: right;
+	
+}
+
+form #loginview .form-input{
+	width: 90%;
+	padding: 8px;
+	border: 0px;
+	box-shadow: 1px 2px 5px #88f;
+	border-radius: 2px;
+	
+}
+
+form #loginview button{
+	padding: 8px;
+}
+
+#error {
+	background: #f57070bd;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 6px;
+}

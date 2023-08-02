@@ -1,0 +1,23 @@
+th {
+    color: #858796;
+    text-transform: capitalize;
+    text-align: left !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.btn-action {
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+.btn-action.edit {
+    background: #4e73df;
+}
+.btn-action.del {
+    background: #b1b7c9;
+}
+
+tr.odd {
+    display: none;
+}
