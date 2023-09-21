@@ -14,6 +14,9 @@ const AddWarehousesInventory = () => {
     // Danh sách phiếu kiểm kê kho
     const [warehouseInventories, setWarehouseInventories] = useState([]);
 
+    // State lưu trữ giá trị value của các trường nhập
+    const [warehouse, setWarehouse] = useState(0);
+
     // Người dùng hiện tại
     const [user, setUser] = useState("");
 
@@ -77,6 +80,10 @@ const AddWarehousesInventory = () => {
         setInventorys([]);
     };
 
+    const handleChange = (e) => {
+        setWarehouse(e.target.value);
+    };
+
     // Lấy danh sách phiếu kiểm kê kho
     const getWarehouseInventories = async () => {
         const res = await axios.get(
@@ -91,9 +98,13 @@ const AddWarehousesInventory = () => {
         setWarehouses(res.data.warehouses);
     };
 
-    const addInventory = () => {
+    const addInventory = (warehouseParam = "") => {
         const newInventory = (
-            <Inventory key={inventorys.length} index={inventorys.length} />
+            <Inventory
+                key={inventorys.length}
+                index={inventorys.length}
+                warehouseParam={warehouseParam}
+            />
         );
         setInventorys((prevInventorys) => [...prevInventorys, newInventory]);
         document.getElementById("form-button").style.display = "flex";
@@ -108,6 +119,37 @@ const AddWarehousesInventory = () => {
         }
         if (inventorys.length === 1) {
             document.getElementById("form-button").style.display = "none";
+        }
+    };
+
+    // Xử lý khi warehouse thay đổi
+    useEffect(() => {
+        updateInventories(warehouse);
+    }, [warehouse]);
+
+    /**
+     * Cập nhật lại inventory khi warehouse thay đổi (cụ thể là số lượng ước tính)
+     * Vì số lượng ước tính này là số lượng của loại hàng trong kho hiện tại chứ không phải tất cả
+     * @param {*} warehouseParam
+     */
+    const updateInventories = async (warehouseParam) => {
+        setInventorys([]);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        if (warehouseInventory.inventories) {
+            warehouseInventory.inventories.map((inventory, index) => {
+                addInventory(
+                    index,
+                    inventory.name,
+                    inventory.sku,
+                    inventory.unit,
+                    inventory.quantity,
+                    inventory.realQuantity,
+                    inventory.price,
+                    inventory.quality,
+                    warehouseParam
+                );
+            });
         }
     };
 
@@ -182,7 +224,7 @@ const AddWarehousesInventory = () => {
                                     </h6>
                                     <div
                                         id="product-expand1"
-                                        onClick={addInventory}
+                                        onClick={() => addInventory(warehouse)}
                                     >
                                         Thêm
                                     </div>
@@ -228,6 +270,8 @@ const AddWarehousesInventory = () => {
                                                 className="form-input"
                                                 name="warehouse"
                                                 id="warehouse"
+                                                value={warehouse}
+                                                onChange={handleChange}
                                             >
                                                 {options}
                                             </select>
@@ -445,7 +489,8 @@ const AddWarehousesInventory = () => {
 
 const Inventory = (props) => {
     const [sku, setSku] = useState("");
-    const [colorSize, setColorSize] = useState({
+
+    const [warehousePd, setWarehousePd] = useState({
         name_specific: "",
         quantity: 0,
     });
@@ -459,17 +504,25 @@ const Inventory = (props) => {
     const getSkuData = async (skuParam) => {
         try {
             const res = await axios.get(
-                `http://localhost:8000/api/products/colorsizes/${skuParam}`
+                `http://localhost:8000/api/warehouseproduct?sku=${skuParam}&warehouse=${props.warehouseParam}`
             );
             console.log(res);
             if (res.data.status) {
-                setColorSize(res.data.color_size); // new
+                setWarehousePd(res.data.warehouse_product); // new
             }
         } catch (error) {
             console.error(error);
-            setNameSpecific("");
+            setWarehousePd({
+                name_specific: "",
+                quantity: 0,
+            });
         }
     };
+
+    useEffect(() => {
+        getSkuData(sku);
+    }, []);
+
     return (
         <tr className="packages">
             <td
@@ -480,12 +533,18 @@ const Inventory = (props) => {
                 {props.index + 1}
             </td>
             <td>
-                <p>{colorSize.name_specific ? colorSize.name_specific : ""}</p>
+                <p>
+                    {warehousePd.name_specific ? warehousePd.name_specific : ""}
+                </p>
                 <input
                     className="form-input"
                     type="hidden"
                     name={`name[]`}
-                    value={colorSize.name_specific ? colorSize.name_specific : ""}
+                    value={
+                        warehousePd.name_specific
+                            ? warehousePd.name_specific
+                            : ""
+                    }
                 ></input>
             </td>
             <td>
@@ -505,12 +564,12 @@ const Inventory = (props) => {
                 ></input>
             </td>
             <td className="text-center">
-                <p>{colorSize.quantity ? colorSize.quantity : 0}</p>
+                <p>{warehousePd.quantity ? warehousePd.quantity : 0}</p>
                 <input
                     className="form-input"
                     type="hidden"
                     name={`quantity[]`}
-                    value={colorSize.quantity ? colorSize.quantity : 0}
+                    value={warehousePd.quantity ? warehousePd.quantity : 0}
                 ></input>
             </td>
             <td></td>

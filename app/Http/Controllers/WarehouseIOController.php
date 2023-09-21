@@ -7,6 +7,7 @@ use App\Models\ColorSize;
 use App\Models\Package;
 use App\Models\Warehouse;
 use App\Models\WarehouseIO;
+use App\Models\WarehouseProduct;
 use DateTime;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Carbon;
@@ -96,6 +97,7 @@ class WarehouseIOController extends Controller
 
     public function update(Request $request, WarehouseIO $warehouseIO)
     {
+        // dd($request->type === 0);
         $names = $request->name;
         $skus = $request->sku;
         $units = $request->unit;
@@ -231,21 +233,75 @@ class WarehouseIOController extends Controller
             // Cập nhật quantity trong bảng ColorSizes database
             // Nếu là phiếu xuất thì trừ quantity, ngược lại thì cộng
             $colorSize = ColorSize::where('sku', $package[1])->first();
-            
+
+            // Cập nhật lại quantity của loại hàng tương ứng thuộc kho hiện tại trong 
+            // bảng warehouse products
+            $warehousePd = $warehouse->warehouseproducts()->where('sku', $package[1])->first();
+
             foreach ($resultPkgs as $resultPkg) {
                 if ($package[1] === $resultPkg->sku) {
                     $existed = true;
+
+                    // Biến trạng thái cho biết có cần thiết phải giữ nguyên không cập nhật $warehousePd 
+                    // hay không?
+                    // Mặc định là cập nhật $warehousePd
+                    $hold = false;
+
+                    // Nếu không có trong warehouse products thì lưu lại
+                    if (!$warehousePd) {
+                        // Nếu là phiếu xuất thì ném thông báo không có hàng để xuất
+                        if (intval($request->type) === 1) {
+                            $data = [
+                                'status' => false,
+                                'messages' => 'Không có hàng để xuất!'
+                            ];
+                            return response()->json($data, 200);
+                        }
+
+                        // Đánh dấu trạng thái giữ nguyên không sửa $warehousePd
+                        $hold = true;
+                        WarehouseProduct::create([
+                            'sku' => $package[1],
+                            'quantity' => $package[4],
+                            'warehouse_id' => $warehouse->id,
+                        ]);
+                    }
 
                     // Nếu đã lưu thì cập nhật lại quantity (nhập - trừ, xuất - cộng)
                     if ($resultPkg->real_quantity !== null || $resultPkg->real_quantity >= 0) {
                         if (intval($request->type) === 0) {
                             $colorSize->quantity -= $resultPkg->real_quantity;
+
+                            // Nếu trạng thái là không giữ nguyên thì cập nhật $warehousePd
+                            if (!$hold) {
+                                $warehousePd->quantity -= $resultPkg->real_quantity;
+                            }
                         } else {
                             $colorSize->quantity += $resultPkg->real_quantity;
+
+                            // Nếu trạng thái là không giữ nguyên thì cập nhật $warehousePd
+                            if (!$hold) {
+                                $warehousePd->quantity += $resultPkg->real_quantity;
+                            }
                         }
-                        // dd($colorSize->quantity);
                     }
-                    
+
+                    if (!$hold) {
+                        // Nếu có trong bảng warehouse products thì cập nhật quantity
+                        if (intval($request->type) === 0) {
+                            $warehousePd->quantity += $package[4];
+                        } else {
+                            $warehousePd->quantity -= $package[4];
+                        }
+
+                        // Lưu lại cập nhật
+                        $warehousePd->save();
+
+                        // dd($warehousePd->quantity);
+                    }
+
+                    // dd($resultPkg->real_quantity);
+
                     $editPkgs[] = $resultPkg->toArray();
                     // Không cần sửa sku, warehouse_id
                     $resultPkg->name = $package[0];
@@ -270,7 +326,7 @@ class WarehouseIOController extends Controller
                 ]);
             }
 
-            // Cập nhật quantity
+            // Cập nhật quantity của bảng colorsize
             if (intval($request->type) === 0) {
                 $colorSize->quantity += $package[4];
             } else {
@@ -373,6 +429,7 @@ class WarehouseIOController extends Controller
         }
         // dd($packages);
 
+        // Lưu WarehouseIO
         $warehouseIOCode = Str::random(20);
         $warehouse = Warehouse::where('name', $request->warehouse)->first();
         if (intval($request->type) === 0) {
@@ -422,6 +479,7 @@ class WarehouseIOController extends Controller
                 'warehouse_io_id' => $warehouseIO->id,
             ]);
         }
+
         $data = [
             'status' => true,
             'messages' => 'Thêm mới thành công',

@@ -95,14 +95,14 @@ const EditWarehousesInventory = () => {
 
     /**
      * Thêm hàng inventory
-     * @param {*} index 
-     * @param {*} name 
-     * @param {*} sku 
-     * @param {*} unit 
-     * @param {*} quantity 
-     * @param {*} realQuantity 
-     * @param {*} price 
-     * @param {*} quality 
+     * @param {*} index
+     * @param {*} name
+     * @param {*} sku
+     * @param {*} unit
+     * @param {*} quantity
+     * @param {*} realQuantity
+     * @param {*} price
+     * @param {*} quality
      * @param {*} warehouseParam - Dùng để lấy quantity cho loại hàng tương ứng
      */
     const addInventory = (
@@ -166,7 +166,7 @@ const EditWarehousesInventory = () => {
     /**
      * Cập nhật lại inventory khi warehouse thay đổi (cụ thể là số lượng ước tính)
      * Vì số lượng ước tính này là số lượng của loại hàng trong kho hiện tại chứ không phải tất cả
-     * @param {*} warehouseParam 
+     * @param {*} warehouseParam
      */
     const updateInventories = async (warehouseParam) => {
         setInventorys([]);
@@ -262,7 +262,19 @@ const EditWarehousesInventory = () => {
                                     </h6>
                                     <div
                                         id="product-expand1"
-                                        onClick={() => addInventory()}
+                                        onClick={() =>
+                                            addInventory(
+                                                0,
+                                                "",
+                                                "",
+                                                "",
+                                                0,
+                                                0,
+                                                0,
+                                                0,
+                                                warehouse
+                                            )
+                                        }
                                     >
                                         Thêm
                                     </div>
@@ -422,11 +434,11 @@ const EditWarehousesInventory = () => {
 const Inventory = (props) => {
     const [sku, setSku] = useState(props.sku);
     const [unit, setUnit] = useState(props.unit);
-    const [realQuantity, setRealQuantity] = useState(props.realQquantity);
+    const [realQuantity, setRealQuantity] = useState(props.realQuantity);
     const [price, setPrice] = useState(props.price);
     const [quality, setQuality] = useState(props.quality);
 
-    const [colorSize, setColorSize] = useState({
+    const [warehousePd, setWarehousePd] = useState({
         name_specific: "",
         quantity: 0,
     });
@@ -453,15 +465,15 @@ const Inventory = (props) => {
     const getSkuData = async (skuParam) => {
         try {
             const res = await axios.get(
-                `http://localhost:8000/api/warehouseproducts/${skuParam}?warehouse=${props.warehouseParam}`
+                `http://localhost:8000/api/warehouseproduct?sku=${skuParam}&warehouse=${props.warehouseParam}`
             );
             console.log(res);
             if (res.data.status) {
-                setColorSize(res.data.color_size); // new
+                setWarehousePd(res.data.warehouse_product); // new
             }
         } catch (error) {
             console.error(error);
-            setColorSize({
+            setWarehousePd({
                 name_specific: "",
                 quantity: 0,
             });
@@ -483,13 +495,17 @@ const Inventory = (props) => {
                 {props.index + 1}
             </td>
             <td>
-                <p>{colorSize.name_specific ? colorSize.name_specific : ""}</p>
+                <p>
+                    {warehousePd.name_specific ? warehousePd.name_specific : ""}
+                </p>
                 <input
                     className="form-input"
                     type="hidden"
                     name={`name[]`}
                     value={
-                        colorSize.name_specific ? colorSize.name_specific : ""
+                        warehousePd.name_specific
+                            ? warehousePd.name_specific
+                            : ""
                     }
                 ></input>
             </td>
@@ -512,12 +528,12 @@ const Inventory = (props) => {
                 ></input>
             </td>
             <td className="text-center">
-                <p>{colorSize.quantity ? colorSize.quantity : 0}</p>
+                <p>{warehousePd.quantity ? warehousePd.quantity : 0}</p>
                 <input
                     className="form-input"
                     type="hidden"
                     name={`quantity[]`}
-                    value={colorSize.quantity ? colorSize.quantity : 0}
+                    value={warehousePd.quantity ? warehousePd.quantity : 0}
                 ></input>
             </td>
             <td>

@@ -13,6 +13,7 @@ use App\Http\Controllers\WarehouseProductController;
 use App\Models\ColorSize;
 use App\Models\WarehouseInventory;
 use App\Models\WarehouseIO;
+use App\Models\WarehouseProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -66,7 +67,7 @@ Route::get('warehouseios', [WarehouseIOController::class, 'list']);
 Route::get('warehouseios/{warehouseio}', [WarehouseIOController::class, 'show']);
 Route::post('warehouseios/{warehouseio}', [WarehouseIOController::class, 'update']);
 
-Route::get('warehouseproducts/{sku}', [WarehouseProductController::class, 'show']);
+Route::get('warehouseproduct', [WarehouseProductController::class, 'show']);
 
 
 Route::bind('warehouseio', function ($value) {

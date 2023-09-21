@@ -7,6 +7,7 @@ use App\Models\InventoryProduct;
 use App\Models\Warehouse;
 use App\Models\WarehouseInventory;
 use App\Http\Controllers\Controller;
+use App\Models\WarehouseProduct;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -308,27 +309,74 @@ class WarehouseInventoryController extends Controller
             $warehouseInventory->completed = intval($request->completed);
             $warehouseInventory->save();
 
-            $inventoryProducts = InventoryProduct::where('warehouse_inventorie_id', $warehouseInventory->id)->get();
+            $resultInvProds = InventoryProduct::where('warehouse_inventorie_id', $warehouseInventory->id)->get();
             $editInvProds = [];
             foreach ($inventories as $inventory) {
                 $existed = false;
 
-                foreach ($inventoryProducts as $inventoryProduct) {
-                    // dd($inventory[1]);
-                    if ($inventory[1] === $inventoryProduct->sku) {
+                // Cập nhật quantity trong bảng ColorSizes database
+                // Nếu là phiếu xuất thì trừ quantity, ngược lại thì cộng
+                $colorSize = ColorSize::where('sku', $inventory[1])->first();
+
+                // Cập nhật lại quantity của loại hàng tương ứng thuộc kho hiện tại trong 
+                // bảng warehouse products
+                $warehousePd = $warehouse->warehouseproducts()->where('sku', $inventory[1])->first();
+
+                foreach ($resultInvProds as $resultInvProd) {
+                    if ($inventory[1] === $resultInvProd->sku) {
                         $existed = true;
 
+                        // Biến trạng thái cho biết có cần thiết phải giữ nguyên không cập nhật $warehousePd 
+                        // hay không?
+                        // Mặc định là cập nhật $warehousePd
+                        $hold = false;
+
+                        // Nếu không có trong warehouse products thì lưu lại
+                        if (!$warehousePd) {
+                            // Đánh dấu trạng thái giữ nguyên không sửa $warehousePd
+                            $hold = true;
+                            WarehouseProduct::create([
+                                'sku' => $inventory[1],
+                                'quantity' => $inventory[4],
+                                'warehouse_id' => $warehouse->id,
+                            ]);
+                        }
+
+                        // Nếu đã lưu thì cập nhật lại quantity (trừ đi quantity cũ để cộng lại quantity mới)
+                        if ($resultInvProd->real_quantity !== null || $resultInvProd->real_quantity >= 0) {
+                            $colorSize->quantity -= $resultInvProd->real_quantity;
+
+                            // Nếu trạng thái là không giữ nguyên thì cập nhật $warehousePd
+                            if (!$hold) {
+                                $warehousePd->quantity -= $resultInvProd->real_quantity;
+                            }
+                        }
+
+                        if (!$hold) {
+                            // Nếu có trong bảng warehouse products thì cập nhật quantity
+                            if (intval($request->type) === 0) {
+                                $warehousePd->quantity += $inventory[4];
+                            } else {
+                                $warehousePd->quantity -= $inventory[4];
+                            }
+
+                            // Lưu lại cập nhật
+                            $warehousePd->save();
+
+                            // dd($warehousePd->quantity);
+                        }
+
                         // Thêm inventory products vào editInvProds nếu có tồn tại trong database
-                        $editInvProds[] = $inventoryProduct->toArray();
+                        $editInvProds[] = $resultInvProd->toArray();
 
                         // Không cần sửa sku, warehouse_id
-                        $inventoryProduct->name = $inventory[0];
-                        $inventoryProduct->unit = $inventory[2];
-                        $inventoryProduct->quantity = intval($inventory[3]);
-                        $inventoryProduct->real_quantity = intval($inventory[4]);
-                        $inventoryProduct->price = intval($inventory[5]);
-                        $inventoryProduct->quality = intval($inventory[6]);
-                        $inventoryProduct->save();
+                        $resultInvProd->name = $inventory[0];
+                        $resultInvProd->unit = $inventory[2];
+                        $resultInvProd->quantity = intval($inventory[3]);
+                        $resultInvProd->real_quantity = intval($inventory[4]);
+                        $resultInvProd->price = intval($inventory[5]);
+                        $resultInvProd->quality = intval($inventory[6]);
+                        $resultInvProd->save();
                     }
                 }
                 // dd($inventories);
@@ -348,13 +396,12 @@ class WarehouseInventoryController extends Controller
                 }
 
                 // Cập nhật quantity trong bảng ColorSizes database
-                $colorSize = ColorSize::where('sku', $inventory[1])->first();
-                $colorSize->quantity = $inventory[4];
+                $colorSize->quantity += $inventory[4];
                 $colorSize->save();
             }
 
             // Những inventory products trong database không nằm trong danh sách chỉnh sửa editInvProds thì sẽ xóa
-            $delInvProds = $this->notInArray($inventoryProducts->toArray(), $editInvProds, 'sku');
+            $delInvProds = $this->notInArray($resultInvProds->toArray(), $editInvProds, 'sku');
             // dd($delInvProds);
             foreach ($delInvProds as $delInvProd) {
                 InventoryProduct::where('sku', $delInvProd['sku'])->delete();

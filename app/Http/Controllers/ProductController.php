@@ -183,7 +183,7 @@ class ProductController extends Controller
             foreach ($rltColors as $rltColor) {
                 foreach ($rltSizes as $rltSize) {
                     ColorSize::create([
-                        'sku' => '',
+                        'sku' => null,
                         'quantity' => 0,
                         'color_id' => $rltColor->id,
                         'size_id' => $rltSize->id,
