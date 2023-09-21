@@ -11,7 +11,7 @@ const DashboardProductIndex = () => {
                 <Sidebar />
 
                 <div id="content-wrapper" className="d-flex flex-column">
-                    <div id="content">
+                    <div id="content" className="w-100">
                         <Topbar />
 
                         {/* Begin Page Content */}

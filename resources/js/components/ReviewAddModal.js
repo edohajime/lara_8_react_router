@@ -69,6 +69,7 @@ const ReviewAddModal = () => {
           <Container>
             <form method="post" action="/add-review" encType="multipart/form-data">
               <input type="hidden" name="_token" value={csrfToken} />
+              <input type="hidden" name="color_id" value={searchParams.get("colorId")} />              
               <input type="hidden" name="size_id" value={searchParams.get("sizeId")} />              
               <div className="reviewAdd-body">
                 <Row>

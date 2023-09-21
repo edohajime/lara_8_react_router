@@ -15,8 +15,7 @@ class CreateSizesTable extends Migration
             $table->id();
             $table->string('size');
             $table->string('size_code');
-            $table->integer('quantity');
-            $table->foreignId('color_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Size;
 use App\Models\Color;
 use App\Http\Controllers\Controller;
@@ -12,21 +13,13 @@ class SizeController extends Controller
     /**
      * Display a listing size of the color.
      */
-    public function listSizesOfColor(Color $color)
+    public function listSizesOfProduct(Product $product)
     {
-        $sizes = Size::where('color_id', $color->id)->get();
+        $sizes = Size::where('product_id', $product->id)->get();
         return response()->json([
-            'color_id' => $color->id,
+            'product_id' => $product->id,
             'sizes' => $sizes,
         ], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -81,14 +74,6 @@ class SizeController extends Controller
             'status' => true,
             'size' => $size,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Size $size)
-    {
-        //
     }
 
     /**

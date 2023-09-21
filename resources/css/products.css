@@ -10,9 +10,15 @@ th {
     padding: 5px;
     border-radius: 5px;
     margin-right: 5px;
+    border: none;
+    color: #fff !important;
 }
 .btn-action.edit {
     background: #4e73df;
+}
+.btn-action.sku {
+    background: #9ab0ef;
+    border: none;
 }
 .btn-action.del {
     background: #b1b7c9;

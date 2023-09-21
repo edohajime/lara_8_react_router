@@ -81,3 +81,53 @@ a.cancel-button {
 div#form-button.text-end.col {
   display: none;
 }
+
+.review-input-medias {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.review-input-medias .medias-item {
+  max-width: 5rem;
+  max-height: 5rem;
+  padding: 4px;
+}
+
+.medias-item-border {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid var(--clothing-shop-theme);
+  margin: 0 5px 5px 0;
+}
+
+.medias-item-border span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: var(--clothing-shop-theme)a8;
+  width: 1.4rem;
+  height: 1.4rem;
+  text-align: center;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+label.product_images-label {
+  display: flex;
+  background: #8587964e;
+  border: 1px solid;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}

@@ -1,11 +1,18 @@
 <?php
 
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\ColorSizeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\SKUController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\WarehouseInventoryController;
+use App\Http\Controllers\WarehouseIOController;
+use App\Http\Controllers\WarehouseProductController;
+use App\Models\ColorSize;
+use App\Models\WarehouseInventory;
+use App\Models\WarehouseIO;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,11 +35,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::post('/login', [LoginController::class, 'loginAPI']);
 // Route::post('/logout', [LoginController::class, 'logoutAPI']);
 
+Route::get('skus', [SKUController::class, 'list']);
 
 Route::get('products', [ProductController::class, 'list']);
 Route::get('products/{product}', [ProductController::class, 'show']);
-Route::post('products', [ProductController::class, 'store']);
-Route::put('products', [ProductController::class, 'update']);
+Route::post('products/{product}', [ProductController::class, 'update']);
 Route::delete('products/{product}', [ProductController::class, 'destroy']);
 
 Route::get('products/{product}/images', [ProductImageController::class, 'listImagesOfProduct']);
@@ -41,14 +48,33 @@ Route::post('products/{product}/images', [ProductImageController::class, 'store'
 Route::put('products/images/{productImage}', [ProductImageController::class, 'update']);
 Route::delete('products/images/{productImage}', [ProductImageController::class, 'destroy']);
 
-Route::get('products/{product}/colors', [ColorController::class, 'listColorsOfProduct']);
-Route::get('products/colors/{color}', [ColorController::class, 'show']);
-Route::post('products/{product}/colors', [ColorController::class, 'store']);
-Route::put('products/colors/{color}', [ColorController::class, 'update']);
-Route::delete('products/colors/{color}', [ColorController::class, 'destroy']);
+Route::get('products/{product}/colors', [ColorSizeController::class, 'listColorsOfProd']);
+Route::get('products/{product}/sizes', [ColorSizeController::class, 'listSizesOfProd']);
+Route::get('products/{product}/colorsizes', [ColorSizeController::class, 'listOfProd']);
+Route::get('products/colorsizes/{sku}', [ColorSizeController::class, 'show']);
+Route::post('products/{product}/colorsizes', [ColorSizeController::class, 'update']);
 
-Route::get('colors/{color}/sizes', [SizeController::class, 'listSizesOfColor']);
-Route::get('colors/sizes/{size}', [SizeController::class, 'show']);
-Route::post('colors/{color}/sizes', [SizeController::class, 'store']);
-Route::put('colors/sizes/{size}', [SizeController::class, 'update']);
-Route::delete('colors/sizes/{size}', [SizeController::class, 'destroy']);
+Route::get('warehouses', [WarehouseController::class, 'list']);
+Route::get('warehouses/{warehouse}', [WarehouseController::class, 'show']);
+Route::post('warehouses/{warehouse}', [WarehouseController::class, 'update']);
+
+Route::get('warehouseinventories', [WarehouseInventoryController::class, 'list']);
+Route::get('warehouseinventories/{warehouseinventorie}', [WarehouseInventoryController::class, 'show']);
+Route::post('warehouseinventories/{warehouseinventorie}', [WarehouseInventoryController::class, 'update']);
+
+Route::get('warehouseios', [WarehouseIOController::class, 'list']);
+Route::get('warehouseios/{warehouseio}', [WarehouseIOController::class, 'show']);
+Route::post('warehouseios/{warehouseio}', [WarehouseIOController::class, 'update']);
+
+Route::get('warehouseproducts/{sku}', [WarehouseProductController::class, 'show']);
+
+
+Route::bind('warehouseio', function ($value) {
+    return WarehouseIO::where('id', $value)->firstOrFail();
+});
+Route::bind('warehouseinventorie', function ($value) {
+    return WarehouseInventory::where('id', $value)->firstOrFail();
+});
+Route::bind('sku', function ($value) {
+    return ColorSize::where('sku', $value)->firstOrFail();
+});

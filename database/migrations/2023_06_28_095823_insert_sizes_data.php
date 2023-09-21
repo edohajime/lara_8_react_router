@@ -13,14 +13,12 @@ class InsertSizesData extends Migration
             [
                 'size' => 39,
                 'size_code' => 'ndjrdndjrdndjrdndjrd',
-                'quantity' => 5167,
-                'color_id' => 1,
+                'product_id' => 1
             ],
             [
                 'size' => 40,
                 'size_code' => 'akduvakduvakduvakduv',
-                'quantity' => 5177,
-                'color_id' => 1,
+                'product_id' => 1
             ]
         ]);
     }

@@ -9,30 +9,23 @@ const Footer = () => {
       <Container>
         <Row className="aboutUs">
           <Col>
-            <h3>CHĂM SÓC KHÁCH HÀNG</h3>
+            <h3>DỊCH VỤ</h3>
             <h4>Trung Tâm Trợ Giúp</h4>
-            <h4>Shopee Blog</h4>
-            <h4>Shopee Mall</h4>
+            <h4>Blog</h4>
             <h4>Hướng Dẫn Mua Hàng</h4>
-            <h4>Hướng Dẫn Bán Hàng</h4>
             <h4>Thanh Toán</h4>
-            <h4>Shopee Xu</h4>
             <h4>Vận Chuyển</h4>
             <h4>Trả Hàng & Hoàn Tiền</h4>
             <h4>Chăm Sóc Khách Hàng</h4>
             <h4>Chính Sách Bảo Hành</h4>
           </Col>
           <Col>
-            <h3>VỀ SHOPEE</h3>
-            <h4>Giới Thiệu Về Shopee Việt Nam</h4>
+            <h3>VỀ CHÚNG TÔI</h3>
+            <h4>Giới Thiệu</h4>
             <h4>Tuyển Dụng</h4>
             <h4>Điều Khoản Shopee</h4>
             <h4>Chính Sách Bảo Mật</h4>
             <h4>Chính Hãng</h4>
-            <h4>Kênh Người Bán</h4>
-            <h4>Flash Sales</h4>
-            <h4>Chương Trình Tiếp Thị Liên Kết Shopee</h4>
-            <h4>Liên Hệ Với Truyền Thông</h4>
           </Col>
           <Col>
             <h3>THANH TOÁN</h3>
@@ -43,24 +36,6 @@ const Footer = () => {
               <div className="footerImg-item">
                 <img src="/images/footer-item2.jpg" alt="footer-item"></img>
               </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item3.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item4.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item5.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item6.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item7.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item8.jpg" alt="footer-item"></img>
-              </div>
             </div>
 
             <h3>ĐƠN VỊ VẬN CHUYỂN</h3>
@@ -69,31 +44,7 @@ const Footer = () => {
                 <img src="/images/footer-item9.jpg" alt="footer-item"></img>
               </div>
               <div className="footerImg-item">
-                <img src="/images/footer-item10.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item11.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item12.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item13.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item14.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
                 <img src="/images/footer-item15.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item16.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item17.jpg" alt="footer-item"></img>
-              </div>
-              <div className="footerImg-item">
-                <img src="/images/footer-item18.jpg" alt="footer-item"></img>
               </div>
               <div className="footerImg-item">
                 <img src="/images/footer-item19.jpg" alt="footer-item"></img>
@@ -115,25 +66,7 @@ const Footer = () => {
               <h4>LinkedIn</h4>
             </div>
           </Col>
-          <Col>
-            <h3>TẢI ỨNG DỤNG SHOPEE NGAY THÔI</h3>
-            <div className="d-flex download">
-              <div className="download-item">
-                <img src="/images/footer-qrcode.jpg" alt="QR Code"></img>
-              </div>
-              <div className="downloadApp">
-                <div className="download-item">
-                  <img src="/images/app-store.jpg" alt="App Store"></img>
-                </div>
-                <div className="download-item">
-                  <img src="/images/google-play.jpg" alt="Google Play"></img>
-                </div>
-                <div className="download-item">
-                  <img src="/images/app-gallery.jpg" alt="App Gallery"></img>
-                </div>
-              </div>
-            </div>
-          </Col>
+          
         </Row>
         <Row className="national">
           <Col xs={4}>

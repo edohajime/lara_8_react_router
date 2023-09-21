@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Color;
+use App\Models\ColorSize;
 use App\Models\Product;
 use App\Models\Review;
 use App\Http\Controllers\Controller;
@@ -16,13 +17,19 @@ use Illuminate\Support\Str;
 class ReviewController extends Controller
 {
 
-    public function statistic(Request $request) {
-        $reviews = Review::where('product_id', $request->get('product_id'))->paginate(15);
+    public function statistic(Request $request)
+    {
+        // Chuyển từ product_id sang color_size_id
+        $id = $request->get('product_id');
+        $reviews = Review::reviewsOfProduct($id, 15);
+        // dd($reviews);
         $starCounts = [0, 0, 0, 0, 0];
         $countHasReview = 0;
         $countHasMedia = 0;
         $totalStars = 0;
         $total = 0;
+
+        // dd($reviews);
 
         foreach ($reviews as $review) {
             if ($review->stars === 5) {
@@ -75,39 +82,43 @@ class ReviewController extends Controller
         $reviews = [];
         $datas = [];
         $total = 0;
+        $id = $request->get('product_id');
 
         if ($request->has('page')) {
             $rpp = 1;
             if ($request->has('rpp')) {
                 $rpp = (int) $request->get('rpp');
-            } 
+            }
 
             if ($request->has('filter')) {
                 $filter = $request->get('filter');
                 if ($filter === '5') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('stars', 5)->paginate($rpp);
+                    $reviews = Review::ifStarsEquals($id, 5, $rpp);
                 } elseif ($filter === '4') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('stars', 4)->paginate($rpp);
+                    $reviews = Review::ifStarsEquals($id, 4, $rpp);
                 } elseif ($filter === '3') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('stars', 3)->paginate($rpp);
+                    $reviews = Review::ifStarsEquals($id, 3, $rpp);
                 } elseif ($filter === '2') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('stars', 2)->paginate($rpp);
+                    $reviews = Review::ifStarsEquals($id, 2, $rpp);
                 } elseif ($filter === '1') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('stars', 1)->paginate($rpp);
+                    $reviews = Review::ifStarsEquals($id, 1, $rpp);
                 } elseif ($filter === 'has_review') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('has_review', true)->paginate($rpp);
+                    $reviews = Review::ifHasReviewEquals($id, true, $rpp);
                 } elseif ($filter === 'has_media') {
-                    $reviews = Review::where('product_id', $request->get('product_id'))->where('has_media', true)->paginate($rpp);
+                    $reviews = Review::ifHasReviewEquals($id, true, $rpp);
                 }
             } else {
-                $reviews = Review::where('product_id', $request->get('product_id'))->paginate($rpp);
+                $reviews = Review::reviewsOfProduct($id, $rpp);
             }
             $total = $reviews->total();
         }
 
+        // dd($reviews);
+
         foreach ($reviews as $review) {
-            $size = Size::where('id', $review->size_id)->first();
-            $color = Color::where('id', $size->color_id)->first();
+            $colorSize = ColorSize::where('id', $review->color_size_id)->first();
+            $size = Size::where('id', $colorSize->size_id)->first();
+            $color = Color::where('id', $colorSize->color_id)->first();
             $user = User::where('id', $review->user_id)->first();
             $classify = "$color->color, $size->size";
 
@@ -142,7 +153,7 @@ class ReviewController extends Controller
                 "avatar" => "/storage/reviews/images/NSDJDBFSABIOB1000.jpg",
                 "medias" => $medias,
             ];
-            
+
             $datas[] = $data;
         }
 
@@ -171,6 +182,25 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
+        $size = Size::where('id', $request->size_id)->first();
+        $color = Color::where('id', $request->color_id)->first();
+
+        // Kiểm tra color, size có cùng một product hay không?
+        // Vì color, size được truyền vào dữ liệu form gửi đi được lấy từ URL không có ràng buộc chặt chẽ
+        // Việc truyền size, color qua URL khi đánh giá review chỉ là tạm thời. Sau này khi thanh toán đơn hàng xong
+        // mới có thể đánh giá. (return redirect('/products?id')->with('sizeId/colorId', ...);)
+
+        if ($size->product_id !== $color->product_id) {
+            return redirect('/messages')->with('messages', "Kích cỡ và màu sắc không phải thuộc cùng một sản phẩm!");
+        }
+        $colorSize = ColorSize::where([
+            ['color_id', '=', $color->id],
+            ['size_id', '=', $size->id]
+        ])->first();
+        $product = Product::where('id', $color->product_id)->first();
+
+        // dd($colorSize);
+
         $rules = [
             'stars' => 'integer|max:5',
             'correct_description' => 'nullable|string|max:255',
@@ -193,10 +223,6 @@ class ReviewController extends Controller
             return redirect('/messages')->with('messages', $validate->errors()->first());
         }
 
-        $size = Size::where('id', $request->size_id)->first();
-        $color = Color::where('id', $size->color_id)->first();
-        $product = Product::where('id', $color->product_id)->first();
-
         // Nếu có 3 trường correct_description, review_color, review_material, content thì 
         // định xác định là đánh giá này có nội dung bình luận (has_review = true)
         $request->merge([
@@ -205,9 +231,9 @@ class ReviewController extends Controller
             'has_like' => false,
         ]);
         if (
-            $request->correct_description !== null 
+            $request->correct_description !== null
             || $request->review_color !== null
-            || $request->review_material !== null 
+            || $request->review_material !== null
             || $request->content !== null
         ) {
             $request->merge([
@@ -220,7 +246,7 @@ class ReviewController extends Controller
                 'has_media' => true
             ]);
         }
-
+        // dd($request->all());
         $reviewCode = Str::random(20);
 
         Review::create([
@@ -233,7 +259,7 @@ class ReviewController extends Controller
             'has_review' => $request->has_review,
             'has_media' => $request->has_media,
             'has_like' => $request->has_like,
-            'size_id' => $request->size_id,
+            'color_size_id' => $colorSize->id,
             'user_id' => Auth::user()->id,
             'product_id' => $product->id,
         ]);
@@ -271,6 +297,8 @@ class ReviewController extends Controller
                 }
             }
         }
+
+        // dd($review);
 
         return redirect('/messages')->with('success', "Đánh giá thành công!");
 

@@ -1,0 +1,13 @@
+Chương 1
++giới thiệu chủ đầu tư
++giới thiệu sơ bộ phần mềm và mong muốn của khách hàng (các chức năng chính, các tác nhân sử dụng phần mềm)
+Chương 2: phân tích & thiết kế
++sử dụng phương pháp phân tích và thiết kế hướng đối tượng
++sử dụng các công cụ phân tích và thiết kế (Rational Rose, Mockup,...)
++phân tích và thiết kế các chức năng cho phần mềm
++sử dụng các biểu đồ
++xây dựng được sơ đồ lớp thực thể: (thuộc tính: giúp thiết kế cơ sở dữ liệu + phương thức: giúp thiết kế các thành phần phần mềm)
++thiết kế cơ sở dữ liệu
++Vẽ các biểu đồ use case (ca sử dụng),bd lớp tham gia use case, biểu đồ trình tự, biểu đồ trạng thái, biểu đồ điều hướng.
++giới thiệu về kiểm thử
++giới thiệu về phần mềm

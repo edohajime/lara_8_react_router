@@ -27,9 +27,7 @@ class CreateReviewsTable extends Migration
             $table->boolean("has_like")->default(false);
             $table->boolean("status")->default(true);
             $table->boolean("show_name")->default(true);
-            $table->foreignId('size_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('product_id')->constrained();
             $table->timestamps();
         });
     }

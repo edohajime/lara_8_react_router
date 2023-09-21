@@ -55,8 +55,41 @@ const Sidebar = () => {
                         <Link to="/admin/products" className="collapse-item">
                             DANH SÁCH
                         </Link>
-                        <Link to="/admin/products/add" className="collapse-item" href="cards.html">
+                        <Link to="/admin/products/add" className="collapse-item">
                             THÊM MỚI
+                        </Link>
+                        
+                    </div>
+                </div>
+            </li>
+            <li className="nav-item">
+                <a
+                    className="nav-link collapsed"
+                    href="#"
+                    data-toggle="collapse"
+                    data-target="#collapseTwo"
+                    aria-expanded="true"
+                    aria-controls="collapseTwo"
+                >
+                    <i className="fas fa-fw fa-cog" />
+                    <span>KHO HÀNG</span>
+                </a>
+                <div
+                    id="collapseTwo"
+                    className="collapse"
+                    aria-labelledby="headingTwo"
+                    data-parent="#accordionSidebar"
+                >
+                    <div className="bg-white py-2 collapse-inner rounded">
+                        <h6 className="collapse-header">QUẢN LÝ KHO:</h6>
+                        <Link to="/admin/warehouses" className="collapse-item">
+                            DANH SÁCH KHO
+                        </Link>
+                        <Link to="/admin/warehouses/io" className="collapse-item">
+                            XUẤT / NHẬP KHO
+                        </Link>
+                        <Link to="/admin/warehouses/inventory" className="collapse-item">
+                            KIỂM KÊ KHO
                         </Link>
                     </div>
                 </div>

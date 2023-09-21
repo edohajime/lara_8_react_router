@@ -1,6 +1,19 @@
+:root {
+    --clothing-shop-bg: #184375;
+    --clothing-shop-theme: #0d3562;
+    --clothing-shop-theme-2: #14539a;
+}
+
+th {
+    text-align: center !important;
+}
+
+
+
 /* HEADER */
 .header {
-    background: #f53d2d;
+    background: var(--clothing-shop-bg);
+    padding: 1rem;
 }
 
 .header p {
@@ -15,8 +28,17 @@
 }
 
 .logo {
-    width: 162px;
-    height: 56px;
+    font-family: 'Borel', cursive;
+    font-size: 1.3rem;
+    text-align: center;
+    margin: 0rem;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.header-logo.col-3 {
+    height: 50px;
+    padding: 13px 0;
 }
 
 .searchBar {
@@ -35,7 +57,7 @@
     width: 10%;
     height: 34px;
     margin-left: 1%;
-    background: #fb5533;
+    background: var(--clothing-shop-theme-2);
     border: none;
     border-radius: 4px;
     color: #FFFFFF;
@@ -52,8 +74,14 @@
 }
 
 svg.fa-shopping {
+    width: 100px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--clothing-shop-theme-2);
     font-size: 26px;
     color: #FFFFFF;
+    cursor: pointer;
 }
 
 /* END HEADER */
@@ -61,7 +89,7 @@ svg.fa-shopping {
 /* FOOTER */
 .footer {
     background: #fbfbfb;
-    border-top: 4px solid #ee4d2d;
+    border-top: 4px solid var(--clothing-shop-theme);
     margin-top: 100px;
 }
 
@@ -98,7 +126,7 @@ svg.fa-shopping {
 }
 
 .footer .aboutUs h4:hover {
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
 }
 
 .footerImg-item {
@@ -179,8 +207,11 @@ svg.fa-shopping {
 }
 
 .footer .companyName {
-    font-size: .75rem;
-    color: rgba(0, 0, 0, .65);
+    font-family: 'Borel', cursive;
+    text-transform: uppercase;
+    color: var(--clothing-shop-theme);
+    font-weight: 900;
+    font-size: 1.5rem;
 }
 
 .footer .companyInfo {
@@ -282,7 +313,7 @@ svg.fa-shopping {
 
 .mediaSlide-item:hover img,
 .mediaSlide-item:hover video {
-    border: 2px solid #ee4d2d;
+    border: 2px solid var(--clothing-shop-theme);
 }
 
 .mediaSlide-item .mediaSlide-media {
@@ -291,7 +322,7 @@ svg.fa-shopping {
 }
 
 .mediaSlide-media.active {
-    border: 2px solid #ee4d2d;
+    border: 2px solid var(--clothing-shop-theme);
 }
 
 .mediaSlide-item video+.shopee-svg-icon-play {
@@ -318,7 +349,7 @@ svg.fa-shopping {
 }
 
 .summary p.underline.rate {
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
 }
 
 .summary .item {
@@ -326,7 +357,7 @@ svg.fa-shopping {
 }
 
 .summary .rated {
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
 }
 
 .summary {
@@ -360,7 +391,7 @@ svg.fa-shopping {
     display: flex;
     font-size: 1.875rem;
     font-weight: 400;
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
     margin-bottom: 0;
     align-items: center;
     margin-right: 4px;
@@ -371,7 +402,7 @@ svg.fa-shopping {
     font-size: .75rem;
     color: #fff;
     text-transform: uppercase;
-    background: #ee4d2d;
+    background: var(--clothing-shop-theme);
     border-radius: 2px;
     padding: 2px 4px;
     font-weight: 600;
@@ -421,13 +452,13 @@ form.productAttributes {
 }
 
 .productAttribute .attribute:hover {
-    border-color: #ee4d2d;
-    color: #ee4d2d;
+    border-color: var(--clothing-shop-theme);
+    color: var(--clothing-shop-theme);
 }
 
 .productAttribute .attribute.active {
-    border-color: #ee4d2d;
-    color: #ee4d2d;
+    border-color: var(--clothing-shop-theme);
+    color: var(--clothing-shop-theme);
 }
 
 .productAttribute .attribute span,
@@ -439,11 +470,13 @@ form.productAttributes {
     position: absolute;
     display: block;
     font-size: .85rem;
-    background: #ee4d2d;
+    background: var(--clothing-shop-theme);
     color: #fff;
     height: 40px;
     width: 40px;
-    transform: translateX(109%) translateY(50%) rotate(45deg);
+    right: -21px;
+    bottom: -25px;
+    transform: rotate(45deg);
 }
 
 .productAttribute .attribute.active .tick1 {
@@ -470,7 +503,7 @@ form.productAttributes {
     outline: none;
     cursor: pointer;
     border: 0;
-    font-size: 1.875rem;
+    font-size: 1.2rem;
     font-weight: 300;
     line-height: 1;
     letter-spacing: 0;
@@ -525,8 +558,8 @@ form.productAttributes {
     overflow: visible;
     outline: 0;
     background: #ffc5b22e;
-    color: #ee4d2d;
-    border: 1px solid #ee4d2d;
+    color: var(--clothing-shop-theme);
+    border: 1px solid var(--clothing-shop-theme);
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .03);
     padding: 10px;
     margin-right: 10px;
@@ -537,7 +570,7 @@ form.productAttributes {
 }
 
 button.addCart.buy {
-    background: #f05d40;
+    background: var(--clothing-shop-theme);
     color: #ffffff;
 }
 
@@ -613,7 +646,7 @@ input[type=number] {
 }
 
 .row.reviews-category-container .reviews-stars {
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
     font-size: 1.125rem;
 }
 
@@ -622,7 +655,7 @@ input[type=number] {
 }
 
 .row.reviews-category-container .rated {
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
     font-size: 1.25rem;
 }
 
@@ -655,19 +688,14 @@ input[type=number] {
 }
 
 .row.reviews-category-container .reviews-filters .filter.active {
-    color: #ee4d2d;
-    border-color: #ee4d2d;
+    color: var(--clothing-shop-theme);
+    border-color: var(--clothing-shop-theme);
 }
 
 img.review-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-}
-
-.review-stars svg {
-    color: #ee4d2d;
-    font-size: 14px;
 }
 
 h5.review-userName {
@@ -679,7 +707,7 @@ h5.review-userName {
 
 svg.rated {
     margin-right: .125rem;
-    color: #ee4d2d;
+    color: var(--clothing-shop-theme);
     font-size: .85rem;
 }
 
@@ -710,12 +738,8 @@ p.review-date {
 }
 
 .review-like .like {
-    color: #8d8a8a;
+    color: var(--clothing-shop-theme);
     margin-right: 5px;
-}
-
-.review-like .like.active {
-    color: #ee4d2d;
 }
 
 .review-like span {
@@ -734,13 +758,13 @@ p.review-date {
     padding: 1rem 0;
 }
 
+
 /* REVIEW MEDIA */
 .review-medias-navibar {
     display: flex;
 }
 
 .media-item {
-    position: relative;
     padding: 0 10px 10px 0;
 }
 
@@ -751,38 +775,16 @@ p.review-date {
 
 .media-item .media-src:hover {
     padding: 2px;
-    border: 2px solid #ee4d2d;
+    border: 2px solid var(--clothing-shop-theme);
 }
 
 .media-item .media-src.active {
     padding: 2px;
-    border: 2px solid #ee4d2d;
+    border: 2px solid var(--clothing-shop-theme);
 }
 
 
-.reviews .review {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.review-item.row {
-    border-bottom: 1px solid;
-    padding: 20px 0;
-    width: 100%;
-}
-
-.review svg.shopee-svg-icon-play {
-    position: absolute;
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-21px, -21px, 0);
-}
 /* END REVIEW MEDIA */
-
 
 .review-pagination {
     display: flex;
@@ -807,17 +809,104 @@ p.review-date {
 }
 
 .review-pagination .page.now {
-    background: #ee4d2d;
+    background: var(--clothing-shop-theme);
     color: #fff;
     border-radius: 3px;
 }
-
 
 .review-pagination .page.hide {
     display: none;
 }
 
+
 /* END REVIEWS */
 
 /* END PRODUCT DETAIL */
 
+
+
+.reviews .review {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.review-item.row {
+    border-bottom: 1px solid;
+    padding: 20px 0;
+    width: 100%;
+}
+
+
+/* WAREHOUSE */
+iframe.location {
+    width: 100%;
+    max-height: 300px;
+}
+
+.add-info .modal-body {
+    overflow-y: scroll;
+    max-width: 600px;
+    max-height: 500px;
+
+    -ms-overflow-style: none;
+    /* IE and Edge hide scrollbar*/
+    scrollbar-width: none;
+    /* Firefox hide scrollbar*/
+}
+
+.add-info .modal-body::-webkit-scrollbar {
+    /* hide scrollbar  */
+    display: none;
+}
+
+.add-info img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.add-info p {
+    margin-top: 1rem;
+}
+
+label[for="location"] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+tr.packages td p {
+    margin: 0;
+}
+
+tr.packages td {
+    vertical-align: middle;
+}
+
+
+
+/* END WAREHOUSE */
+
+/* WAREHOUSE INVENTORIES */
+.table-responsive.inventories-table tr td {
+    text-align: center;
+}
+
+.form-input {
+    outline: none !important;
+}
+
+.form-input.ignore {
+    background: transparent;
+    box-shadow: none;
+}
+
+/* END WAREHOUSE INVENTORIES */
+
+/* PRODUCT SKUS */
+tr.sku-row p {margin: 0;}
+
+tr.sku-row td {
+    vertical-align: middle;
+}
+/* END PRODUCT SKUS */

@@ -15,9 +15,9 @@ class CreateReviewMediasTable extends Migration
     {
         Schema::create('review_medias', function (Blueprint $table) {
             $table->id();
-            $table->string("url")->unique();
-            $table->tinyInteger("type");
-            $table->foreignId("review_id")->constrained();
+            $table->string('url')->unique();
+            $table->tinyInteger('type');
+            $table->foreignId('review_id')->constrained();
             $table->timestamps();
         });
     }
